@@ -1,7 +1,7 @@
 import Foundation
 import CRezz
 
-func resolve(hostname: String) -> String? {
+public func resolve(hostname: String) -> String? {
     // get our hostname as a pointer we can pass
     let hostnameData = hostname.data(using: String.Encoding.utf8)!
     let charPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: hostname.characters.count)
