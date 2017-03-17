@@ -9,15 +9,12 @@ func resolve(hostname: String) -> String? {
     let hostnamePointer = UnsafeMutableRawPointer(charPointer).bindMemory(to: Int8.self, capacity: hostname.characters.count)
 
     // this is the container we'll get the return in
-    let ipData = NSMutableData(length: 100)!
-    let ipDataWrapper = Data(referencing: ipData)
-    let ipPointer = ipData.mutableBytes.bindMemory(to: Int8.self, capacity: 100)
+    let ipPointer = UnsafeMutablePointer<Int8>.allocate(capacity: 100)
 
     // call the C function!
     hostname_to_ip(hostnamePointer, ipPointer)
 
     // unpack the IP!
-    let ip = String(data: ipDataWrapper, encoding: String.Encoding.utf8)
-    print("got back \(ip)")
-    return ip
+    let stringPointer = UnsafeMutableRawPointer(ipPointer).bindMemory(to: UInt8.self, capacity: 100)
+    return String(cString: stringPointer)
 }
