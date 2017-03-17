@@ -16,5 +16,7 @@ public func resolve(hostname: String) -> String? {
 
     // unpack the IP!
     let stringPointer = UnsafeMutableRawPointer(ipPointer).bindMemory(to: UInt8.self, capacity: 100)
-    return String(cString: stringPointer)
+    let ip = String(cString: stringPointer)
+    print("resolved \(hostname) to \(ip)")
+    return ip
 }
